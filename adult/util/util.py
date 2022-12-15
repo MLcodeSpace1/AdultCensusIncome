@@ -87,7 +87,7 @@ def save_numpy_array_data(file_path: str, array: np.array):
 def write_yaml_file(file_path:str, data:dict=None):
     try:
         os.makedirs(os.path.dirname(file_path),exist_ok=True)
-        with open(file_path) as file:
+        with open(file_path, 'w') as file:
             yaml.dump(data, file)
     except Exception as e:
         raise AdultException(e, sys) from e

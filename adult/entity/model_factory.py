@@ -53,7 +53,7 @@ def evaluate_classification(model_list:List, Xtrain:np.array, Xtest:np.array, yT
                 test_accuracy = accuracy_score(yTest, y_test_pred)
 
                 logging.info(f"Train accuracy is {train_accuracy} and Test accuracy is {test_accuracy} of model {str(model)}")
-                logging.info(f"Calculating RMSE")
+                logging.info(f"Calculating Error")
 
                 train_rmse = 1 - train_accuracy
                 test_rmse = 1 - test_accuracy
