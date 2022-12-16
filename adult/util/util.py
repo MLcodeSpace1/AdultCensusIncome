@@ -92,3 +92,5 @@ def write_yaml_file(file_path:str, data:dict=None):
     except Exception as e:
         raise AdultException(e, sys) from e
 
+def get_current_time_stamp():
+    return f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"

@@ -66,7 +66,7 @@ def evaluate_classification(model_list:List, Xtrain:np.array, Xtest:np.array, yT
                 logging.info(f"model accuracy is {model_accuracy} and difference is {diff_in_accuracy}")
                 model_name = str(model)
 
-                if model_accuracy >= base_accuracy and diff_in_accuracy <= 0.05:
+                if model_accuracy >= base_accuracy and diff_in_accuracy <= float(0.05):
                     base_accuracy = model_accuracy
                     metric_info_artifact = MetricInfoArtifact(model_name=model_name,
                                                     model_object=model,
@@ -80,7 +80,9 @@ def evaluate_classification(model_list:List, Xtrain:np.array, Xtest:np.array, yT
                     logging.info(f"Acceptable model found {metric_info_artifact}. ")
                 index_number += 1
         if metric_info_artifact is None:
-            logging.info(f"No model found with higher accuracy than base accuracy")
+            logging.info(f"Metric Info Artifact is {metric_info_artifact}")
+            logging.info(f"No model found with higher accuracy than base accuracy or prev model")
+        logging.info(f"Metric Info Artifact is {metric_info_artifact}")
         return metric_info_artifact
     except Exception as e:
         raise AdultException(e,sys) from e
