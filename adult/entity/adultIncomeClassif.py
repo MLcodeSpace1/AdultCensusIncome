@@ -13,7 +13,7 @@ class adultData:
                  age: int,
                  workclass: float,
                  fnlwgt: float,
-                 education: float,
+                 education: str,
                  education-num: int,
                  marital-status: str,
                  occupation: str,
