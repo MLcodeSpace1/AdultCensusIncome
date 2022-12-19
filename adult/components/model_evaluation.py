@@ -7,10 +7,15 @@ from adult.entity.config_entity import ModelEvaluationConfig
 from adult.entity.artifact_entity import DataIngestionArtifact, DataTransformationArtifact, DataValidationArtifact, ModelTrainerArtifact, ModelEvaluationArtifact
 from adult.util.util import read_yaml_file, write_yaml_file, load_data, load_np_data, load_object
 from adult.entity.model_factory import evaluate_classification
+from sklearn.preprocessing import LabelEncoder
 import sys
 
 class model_evaluation:
-    def __init__(self, data_ingestion_artifact:DataIngestionArtifact, data_validation_artifact:DataValidationArtifact, model_trainer_artifact:ModelTrainerArtifact, model_evaluation_config:ModelEvaluationConfig) -> None:
+    def __init__(self, 
+                    data_ingestion_artifact:DataIngestionArtifact, 
+                    data_validation_artifact:DataValidationArtifact, 
+                    model_trainer_artifact:ModelTrainerArtifact,
+                    model_evaluation_config:ModelEvaluationConfig):
         try:
             self.data_ingestion_artifact = data_ingestion_artifact
             self.data_validation_artifact = data_validation_artifact
@@ -21,11 +26,14 @@ class model_evaluation:
 
     def get_best_model(self):
         try:
+            logging.info(f"Entered get_best_model() in model evaluation")
             model = None
             model_evaluation_file_path = self.model_evaluation_config.model_evaluation_file_path
+            os.path.exists(model_evaluation_file_path)
 
             if not os.path.exists(model_evaluation_file_path):
-                write_yaml_file(file_path=model_evaluation_file_path)
+                write_yaml_file(file_path=model_evaluation_file_path,
+                                )
                 return model
             model_eval_file_content = read_yaml_file(file_path=model_evaluation_file_path)
 
@@ -36,9 +44,9 @@ class model_evaluation:
 
             model = load_object(file_path=model_eval_file_content[BEST_MODEL_KEY][MODEL_PATH_KEY])
             return model
-        
         except Exception as e:
-            raise AdultException(e,sys) from e
+            raise AdultException(e, sys) from e
+
 
 
     def update_evaluation_report(self, model_evaluation_artifact: ModelEvaluationArtifact):
@@ -60,7 +68,7 @@ class model_evaluation:
             }
 
             if previous_best_model is not None:
-                model_history = {self.model_evaluation_config.time_stamp: previous_best_model}
+                model_history = {self.model_evaluation_config.timestamp: previous_best_model}
                 if HISTORY_KEY not in model_eval_content:
                     history = {HISTORY_KEY: model_history}
                     eval_result.update(history)
@@ -78,9 +86,10 @@ class model_evaluation:
         try:
             trained_model_file_path = self.model_trainer_artifact.trained_model_file_path
             trained_model_object = load_object(file_path=trained_model_file_path)
+            label = LabelEncoder()
 
-            train_file_path = self.data_ingestion_artifact.train_file_path
-            test_file_path = self.data_ingestion_artifact.test_file_path
+            train_file_path = self.data_ingestion_artifact.train_data_path
+            test_file_path = self.data_ingestion_artifact.test_data_path
 
             schema_file_path = self.data_validation_artifact.schema_file_path
 
@@ -90,13 +99,14 @@ class model_evaluation:
             test_dataframe = load_data(file_path=test_file_path,
                                                           schema_file_path=schema_file_path,
                                                           )
+            
             schema_content = read_yaml_file(file_path=schema_file_path)
-            target_column_name = schema_content[TARGET_COLUMN_KEY]
+            target_column_name = schema_content[SCHEMA_TARGET_COLUMN]
 
             # target_column
             logging.info(f"Converting target column into numpy array.")
-            train_target_arr = np.array(train_dataframe[target_column_name])
-            test_target_arr = np.array(test_dataframe[target_column_name])
+            train_target_arr = np.array(label.fit_transform(train_dataframe[target_column_name]))
+            test_target_arr = np.array(label.transform(test_dataframe[target_column_name]))
             logging.info(f"Conversion completed target column into numpy array.")
 
             # dropping target column from the dataframe
