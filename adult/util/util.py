@@ -95,18 +95,3 @@ def write_yaml_file(file_path:str, data:dict=None):
 def get_current_time_stamp():
     return f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
 
-
-age: int,
-workclass: float,
-fnlwgt: float,
-education: float,
-education-num: int,
-marital-status: str,
-occupation: str,
-relationship: str,
-race: str,
-sex: str,
-capital-gain: int,
-capital-loss: int,
-hours-per-week: int,
-country:str

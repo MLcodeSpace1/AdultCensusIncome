@@ -18,7 +18,7 @@ columns:
 numerical_columns:
   - age
   - fnlwgt
-  - education-num
+  - education_num
   - capital_gain
   - capital_loss
   - hours_per_week
@@ -64,7 +64,7 @@ domain_value:
     - Prof-school
     - Doctorate
   
-  marital-status:
+  marital_status:
     - Never-married
     - Married-civ-spouse
     - Divorced

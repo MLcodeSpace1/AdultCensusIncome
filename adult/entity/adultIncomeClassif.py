@@ -14,15 +14,15 @@ class adultData:
                  workclass: float,
                  fnlwgt: float,
                  education: str,
-                 education-num: int,
-                 marital-status: str,
+                 education_num: int,
+                 marital_status: str,
                  occupation: str,
                  relationship: str,
                  race: str,
                  sex: str,
-                 capital-gain: int,
-                 capital-loss: int,
-                 hours-per-week: int,
+                 capital_gain: int,
+                 capital_loss: int,
+                 hours_per_week: int,
                  country:str
                  ):
         try:
@@ -30,15 +30,15 @@ class adultData:
             self.workclass = workclass
             self.fnlwgt = fnlwgt
             self.education = education
-            self.education-num = education-num
-            self.marital-status = marital-status
+            self.education_num = education_num
+            self.marital_status = marital_status
             self.occupation = occupation
             self.relationship = relationship
             self.race = race
             self.sex = sex
-            self.capital-gain = capital-gain
-            self.capital-loss = capital-loss
-            self.hours-per-week = hours-per-week
+            self.capital_gain = capital_gain
+            self.capital_loss = capital_loss
+            self.hours_per_week = hours_per_week
             self.country = country
         except Exception as e:
             raise AdultException(e, sys) from e
@@ -58,15 +58,15 @@ class adultData:
                 "workclass": [self.workclass],
                 "fnlwgt": [self.fnlwgt],
                 "education": [self.education],
-                "education-num": [self.education-num],
-                "marital-status": [self.marital-status],
+                "education_num": [self.education_num],
+                "marital_status": [self.marital_status],
                 "occupation": [self.occupation],
                 "relationship": [self.relationship],
                 "race": [self.race],
                 "sex": [self.sex],
-                "capital-gain": [self.capital-gain],
-                "capital-loss": [self.capital-loss],
-                "hours-per-week": [self.hours-per-week],
+                "capital_gain": [self.capital_gain],
+                "capital_loss": [self.capital_loss],
+                "hours_per_week": [self.hours_per_week],
                 "country": [self.country]}
             return input_data
         except Exception as e:

@@ -88,13 +88,13 @@ class data_transformation_component:
 
             remove_outliers_IQR_train('age')
             remove_outliers_IQR_train('fnlwgt')
-            remove_outliers_IQR_train('education-num')
-            remove_outliers_IQR_train('hours-per-week')
+            remove_outliers_IQR_train('education_num')
+            remove_outliers_IQR_train('hours_per_week')
 
             remove_outliers_IQR_test('age')
             remove_outliers_IQR_test('fnlwgt')
-            remove_outliers_IQR_test('education-num')
-            remove_outliers_IQR_test('hours-per-week')
+            remove_outliers_IQR_test('education_num')
+            remove_outliers_IQR_test('hours_per_week')
 
             target_column = schema[SCHEMA_TARGET_COLUMN]
 

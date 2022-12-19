@@ -85,14 +85,14 @@ def view_experiment_history():
 @app.route('/train', methods=['GET', 'POST'])
 def train():
     message = ""
-    pipeline = pipeline(config=Configuration(current_time_stamp=get_current_time_stamp()))
-    if not pipeline.experiment.running_status:
+    Pipeline = pipeline(config=Configuration(config_time_stamp=get_current_time_stamp()))
+    if not Pipeline.experiment.running_status:
         message = "Training started."
-        pipeline.start()
+        Pipeline.start()
     else:
         message = "Training is already in progress."
     context = {
-        "experiment": pipeline.get_experiments_status().to_html(classes='table table-striped col-12'),
+        "experiment": Pipeline.get_experiments_status().to_html(classes='table table-striped col-12'),
         "message": message
     }
     return render_template('train.html', context=context)
@@ -110,37 +110,37 @@ def predict():
         workclass = float(request.form['workclass'])
         fnlwgt = float(request.form['fnlwgt'])
         education = str(request.form['education'])
-        education-num = int(request.form['education-num'])
-        marital-status = str(request.form['marital-status'])
+        education_num = int(request.form['education_num'])
+        marital_status = str(request.form['marital_status'])
         occupation = str(request.form['occupation'])
         relationship = str(request.form['relationship'])
         race = str(request.form['race'])
         sex = str(request.form['sex'])
-        capital-gain = int(request.form['capital-gain'])
-        capital-loss = int(request.form['capital-loss'])
-        hours-per-week = int(request.form['hours-per-week'])
+        capital_gain = int(request.form['capital_gain'])
+        capital_loss = int(request.form['capital_loss'])
+        hours_per_week = int(request.form['hours_per_week'])
         country = str(request.form['country'])
 
-        housing_data = HousingData(age = age,
+        adult_data = adultData(age = age,
                                 workclass = workclass,
                                 fnlwgt = fnlwgt,
                                 education = education,
-                                education-num = education-num,
-                                marital-status = marital-status,
+                                education_num = education_num,
+                                marital_status = marital_status,
                                 occupation = occupation,
                                 relationship = relationship,
                                 race = race,
                                 sex = sex,
-                                capital-gain = capital-gain,
-                                capital-loss = capital-loss,
-                                hours-per-week = hours-per-week,
-                                country = country,
+                                capital_gain = capital_gain,
+                                capital_loss = capital_loss,
+                                hours_per_week = hours_per_week,
+                                country = country
                                    )
-        adult_df = adultData.get_housing_input_data_frame()
+        adult_df = adult_data.get_adult_input_data_frame()
         adult_predictor = adultClassifier(model_dir=MODEL_DIR)
         adultIncomeValue = adult_predictor.predict(X=adult_df)
         context = {
-            ADULT_DATA_KEY: adultData.get_adult_data_as_dict(),
+            ADULT_DATA_KEY: adult_data.get_adult_data_as_dict(),
             ADULT_INCOME_VALUE_KEY: adultIncomeValue,
         }
         return render_template('predict.html', context=context)
@@ -223,4 +223,4 @@ def render_log_dir(req_path):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
