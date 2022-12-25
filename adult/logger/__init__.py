@@ -1,6 +1,7 @@
 import logging
 import os
 from adult.constant import get_curr_timestamp
+import pandas as pd
 LOG_DIR = 'logs'
 
 def get_log_file_name():

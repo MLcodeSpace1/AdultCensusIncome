@@ -36,8 +36,10 @@ app = Flask(__name__)
 def render_artifact_dir(req_path):
     os.makedirs("adult", exist_ok=True)
     # Joining the base and the requested path
+    logging.info(f"req_path: {req_path}")
     print(f"req_path: {req_path}")
     abs_path = os.path.join(req_path)
+    logging.info(abs_path)
     print(abs_path)
     # Return 404 if path doesn't exist
     if not os.path.exists(abs_path):
