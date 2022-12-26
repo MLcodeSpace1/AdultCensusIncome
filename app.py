@@ -30,7 +30,6 @@ ADULT_INCOME_VALUE_KEY = "adultIncomeValue"
 
 app = Flask(__name__)
 
-
 @app.route('/artifact', defaults={'req_path': 'adult'})
 @app.route('/artifact/<path:req_path>')
 def render_artifact_dir(req_path):
@@ -77,7 +76,13 @@ def index():
 @app.route('/template', methods=['GET', 'POST'])
 def template():
     try:
-        return render_template('template.html')
+        log_count = 0
+        trained_count = 0
+        for files in os.walk(LOG_FOLDER_NAME):
+            log_count += len(files)
+        for files in os.walk(SAVED_MODELS_DIR_NAME):
+            trained_count += len(files)
+        return render_template('template.html',dashboard=True,log_count=log_count, trained_count= trained_count)
     except Exception as e:
         return str(e)
 
