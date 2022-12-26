@@ -74,6 +74,12 @@ def index():
     except Exception as e:
         return str(e)
 
+@app.route('/template', methods=['GET', 'POST'])
+def template():
+    try:
+        return render_template('template.html')
+    except Exception as e:
+        return str(e)
 
 @app.route('/view_experiment_hist', methods=['GET', 'POST'])
 def view_experiment_history():
